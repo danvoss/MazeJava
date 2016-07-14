@@ -6,6 +6,8 @@ package com.dvoss;
 public class Room {
     int row;
     int col;
+    boolean isStart = false;
+    boolean isEnd = false;
     boolean wasVisited = false;
     boolean hasBottom = true;
     boolean hasRight = true;

@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 public class Main {
 
     static final int SIZE = 10;
+
+    static ArrayList<Room> r = new ArrayList<>();
+
     static Room[][] createRooms() {
         Room[][] rooms = new Room[SIZE][SIZE]; //primitive array cannot be resized after creation
         for (int row = 0; row < SIZE; row++) {
@@ -68,12 +71,14 @@ public class Main {
         else if (newRoom.col > oldRoom.col) {
             oldRoom.hasRight = false;
         }
-     }
+    }
 
     static boolean createMaze(Room[][] rooms, Room room) {
         room.wasVisited = true;
         Room nextRoom = randomNeighbor(rooms, room.row, room.col);
         if (nextRoom == null) {
+            room.isEnd = true;
+            r.add(room);
             return false;
         }
         tearDownWall(room, nextRoom);
@@ -91,7 +96,21 @@ public class Main {
         for (Room[] row : rooms) {
             System.out.print("|");
             for (Room room : row) {
-                System.out.print(room.hasBottom ? "_" : " ");
+                if ((room.row == 0) && (room.col ==0)) {
+                    System.out.println("o");
+                    room.isStart = false;
+                }
+                if (room == r.get(0) && room.isEnd) {
+                    System.out.println("x");
+                    room.isEnd = false;
+                }
+                if (room.hasBottom) {
+                    System.out.println("_");
+                }
+                else {
+                    System.out.println(" ");
+                }
+                //System.out.print(room.hasBottom ? "_" : " ");
                 System.out.print(room.hasRight ? "|" : " ");
             }
             System.out.println();
