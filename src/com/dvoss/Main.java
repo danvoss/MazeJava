@@ -74,10 +74,15 @@ public class Main {
     }
 
     static boolean createMaze(Room[][] rooms, Room room) {
+        if ((room.row == 0) && (room.col == 0)) {
+            room.isStart = true;
+            //room.hasRight = true;
+        }
         room.wasVisited = true;
         Room nextRoom = randomNeighbor(rooms, room.row, room.col);
         if (nextRoom == null) {
             room.isEnd = true;
+            //room.hasRight = true;
             r.add(room);
             return false;
         }
@@ -96,24 +101,23 @@ public class Main {
         for (Room[] row : rooms) {
             System.out.print("|");
             for (Room room : row) {
-                if ((room.row == 0) && (room.col ==0)) {
+                if (room.isStart) {
                     System.out.println("o");
+                    //System.out.print("o̲");
                     room.isStart = false;
+                    //room.hasRight = false;
+                } else if (room == r.get(0) && room.isEnd) {
+                    System.out.print("x");
+                    //room.isEnd = false;
+                    //room.hasRight = false;
+                } else if (room.hasBottom) {
+                    System.out.print("_");
+                } else {
+                    System.out.print(" ");
                 }
-                if (room == r.get(0) && room.isEnd) {
-                    System.out.println("x");
-                    room.isEnd = false;
-                }
-                if (room.hasBottom) {
-                    System.out.println("_");
-                }
-                else {
-                    System.out.println(" ");
-                }
-                //System.out.print(room.hasBottom ? "_" : " ");
                 System.out.print(room.hasRight ? "|" : " ");
             }
-            System.out.println();
+                System.out.println();
         }
     }
 }
